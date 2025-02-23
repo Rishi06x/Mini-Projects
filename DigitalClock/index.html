@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigitalClock</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="Whole">
+      <div class="digital-clock">
+        <div class="nav">
+          <h1>Digital Clock</h1>
+          <button class="toggle" onclick="btnSpin()">
+            <span id="toggle-element">24</span><span id="hr">hr</span>
+          </button>
+        </div>
+        
+          <div class="clock">
+            <span id="hrs">00</span>
+            <span>:</span>
+            <span id="min">00</span>
+            <span>:</span>
+            <span id="sec">00</span>
+            <span id="ampm"></span>
+        </div>
+      </div>
+
+      <!-- StopWatch -->
+      <div class="stop-watch">
+        <h1>Stop Watch </h1>
+        <div class="watch">
+          <span id="hour">00</span>
+          <span>:</span>
+          <span id="minute">00</span>
+          <span>:</span>
+          <span id="second">00</span>
+          <span>:</span>
+          <span id="ms">00</span>
+        </div>
+        <div class="sw-btns">
+          <button onclick="start()">Start</button>
+          <button onclick="stop()">Stop</button>
+          <button onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+    <script src="clock.js"></script>
+    <script src="stop.js"></script>
+  </body>
+</html>
