@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="script.js" defer></script>
   </head>
   <body class="w-screen h-screen bg-slate-300 flex justify-center items-center box-border">
     <div class="container w-2/6 h-4/5 bg-slate-600 flex flex-col items-center rounded-xl p-2">
@@ -11,7 +12,7 @@
         <!-- Search section -->
         
         <div class="search w-full flex mt-4 gap-x-6 pl-8 pr-8 pt-4">
-            <input type="text" placeholder="Enter a city name" class="bg-white w-4/5 pl-4 border-none outline-none rounded-3xl">
+            <input type="text" placeholder="Enter a city name" class="cityInput bg-white w-4/5 pl-4 border-none outline-none rounded-3xl">
             <button class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
                 <img src="images/search-interface-symbol.png" alt="Search" class="w-6">
             </button>
@@ -32,12 +33,12 @@
 
       <div class="other-details w-4/5 flex flex-row justify-between items-center">
         <div class="humidity flex flex-col items-center">
-            <img src="images/weather.png" alt="humidity" class="w-20">
-            <h2 class="text-white text-xl text-center">Humidity: 50%</h2>
+            <img src="images/weather.png" alt="humidity" class="w-12">
+            <h2 class="text-white text-md text-center">Humidity: 50%</h2>
         </div>
-        <div class="wind flex flex-col items-center w-28">
-            <img src="images/windy.png" alt="WindSpeed" class="w-20">
-            <h2 class="text-white text-xl text-center">Wind Speed: 5 km/hr</h2>
+        <div class="wind flex flex-col items-center">
+            <img src="images/windy.png" alt="WindSpeed" class="w-12">
+            <h2 class="text-white text-md text-center">Wind Speed: 5 km/hr</h2>
         </div>
       </div>
     </div>
