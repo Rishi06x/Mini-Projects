@@ -48,13 +48,31 @@ async function checkWeather() {
             weatherImage.src  = "images/storm.png";
         }
         else if(data.weather[0].main === "Drizzle") {
-            weatherImage.src  = "images/wind.png";
+            weatherImage.src  = "images/drizzle.png";
         }
         else if(data.weather[0].main === "Mist") {
             weatherImage.src = "images/mist.png";
         }
         else if(data.weather[0].main === "Fog") {
             weatherImage.src = "images/snow.png";
+        }
+        else if(data.weather[0].main === "Haze") {
+            weatherImage.src = "images/mist.png";
+        }
+        else if(data.weather[0].main === "Dust") {
+            weatherImage.src = "images/dust.jpeg";
+        }
+        else if(data.weather[0].main === "Sand") {
+            weatherImage.src = "images/dust.jpeg";
+        }
+        else if(data.weather[0].main === "Ash") {
+            weatherImage.src = "images/dust.jpeg";
+        }
+        else if(data.weather[0].main === "Squall") {
+            weatherImage.src = "images/windy.png";
+        }
+        else if(data.weather[0].main === "Tornado") {
+            weatherImage.src = "images/tornado.jpeg";
         }
     } else {
         alert("City not found!");
