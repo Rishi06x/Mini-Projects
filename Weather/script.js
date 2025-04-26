@@ -9,75 +9,85 @@ const humidityText = document.querySelector(".humidity h2");
 const windText = document.querySelector(".wind h2");
 const weatherImage = document.querySelector(".weather-section img");
 
+
+const loadingContainer = document.querySelector(".loading-container");
+const weatherSection = document.querySelector(".weather-section");
+const otherDetails = document.querySelector(".other-details");
+
 async function checkWeather() {
-    const cityName = cityInput.value.trim();
+  const cityName = cityInput.value.trim();
 
-    if (cityName === "") {
-        alert("Please enter a city name!");
-        return;
-    }
+  if (cityName === "") {
+    alert("Please enter a city name!");
+    return;
+  }
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  // Show loading, hide content
+  loadingContainer.classList.remove("hidden");
+  weatherSection.classList.add("hidden");
+  otherDetails.classList.add("hidden");
 
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+  try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
 
-    // You can also display weather data like this:
     if (data.cod === 200) {
-        cityText.textContent = data.name;
-        tempText.textContent = `${data.main.temp}°C`;
-        humidityText.textContent = `Humidity: ${data.main.humidity}%`;
-        windText.textContent = `Wind: ${data.wind.speed} km/h`;
-        weatherText.textContent = data.weather[0].description;
-        // Optional: set weather icon
-        // weatherImage.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-        if(data.weather[0].main === "Clear") {
-            weatherImage.src = "images/sun.png";
-        }
-        else if(data.weather[0].main === "Clouds") {
-            weatherImage.src  = "images/cloud.png";
-        }
-        else if(data.weather[0].main === "Rain") {
-            weatherImage.src  = "images/rain.png";
-        }
-        else if(data.weather[0].main === "Snow") {
-            weatherImage.src  = "images/snow.png";
-        }
-        else if(data.weather[0].main === "Thunderstorm") {
-            weatherImage.src  = "images/storm.png";
-        }
-        else if(data.weather[0].main === "Drizzle") {
-            weatherImage.src  = "images/drizzle.png";
-        }
-        else if(data.weather[0].main === "Mist") {
-            weatherImage.src = "images/mist.png";
-        }
-        else if(data.weather[0].main === "Fog") {
-            weatherImage.src = "images/snow.png";
-        }
-        else if(data.weather[0].main === "Haze") {
-            weatherImage.src = "images/mist.png";
-        }
-        else if(data.weather[0].main === "Dust") {
-            weatherImage.src = "images/dust.jpeg";
-        }
-        else if(data.weather[0].main === "Sand") {
-            weatherImage.src = "images/dust.jpeg";
-        }
-        else if(data.weather[0].main === "Ash") {
-            weatherImage.src = "images/dust.jpeg";
-        }
-        else if(data.weather[0].main === "Squall") {
-            weatherImage.src = "images/windy.png";
-        }
-        else if(data.weather[0].main === "Tornado") {
-            weatherImage.src = "images/tornado.jpeg";
-        }
+      cityText.textContent = data.name;
+      tempText.textContent = `${data.main.temp}°C`;
+      humidityText.textContent = `Humidity: ${data.main.humidity}%`;
+      windText.textContent = `Wind: ${data.wind.speed} km/h`;
+      weatherText.textContent = data.weather[0].description;
+
+      const weatherMain = data.weather[0].main;
+      
+      switch (weatherMain) {
+        case "Clear":
+          weatherImage.src = "images/sun.png"; break;
+        case "Clouds":
+          weatherImage.src = "images/cloud.png"; break;
+        case "Rain":
+          weatherImage.src = "images/rain.png"; break;
+        case "Snow":
+          weatherImage.src = "images/snow.png"; break;
+        case "Thunderstorm":
+          weatherImage.src = "images/storm.png"; break;
+        case "Drizzle":
+          weatherImage.src = "images/drizzle.png"; break;
+        case "Mist":
+          weatherImage.src = "images/mist.png"; break;
+        case "Haze":
+          weatherImage.src = "images/mist.png"; break;
+        case "Fog":
+          weatherImage.src = "images/snow.png"; break;
+        case "Dust":
+          weatherImage.src = "images/dust.jpeg"; break;
+        case "Sand":
+          weatherImage.src = "images/dust.jpeg"; break;
+        case "Ash":
+          weatherImage.src = "images/dust.jpeg"; break;
+        case "Squall":
+          weatherImage.src = "images/windy.png"; break;
+        case "Tornado":
+          weatherImage.src = "images/tornado.jpeg"; break;
+        default:
+          weatherImage.src = ""; break;
+      }
+
     } else {
-        alert("City not found!");
+      alert("City not found!");
     }
+  } catch (error) {
+    alert("Failed to fetch weather data!");
+  } finally {
+    // Hide loading, show content
+    loadingContainer.classList.add("hidden");
+    weatherSection.classList.remove("hidden");
+    otherDetails.classList.remove("hidden");
+  }
 }
 
+    
 // Attach function to button click
 searchBtn.addEventListener("click", checkWeather);
