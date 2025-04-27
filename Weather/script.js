@@ -9,10 +9,17 @@ const humidityText = document.querySelector(".humidity h2");
 const windText = document.querySelector(".wind h2");
 const weatherImage = document.querySelector(".weather-section img");
 
-
 const loadingContainer = document.querySelector(".loading-container");
 const weatherSection = document.querySelector(".weather-section");
 const otherDetails = document.querySelector(".other-details");
+
+// --- New helper function to get city local hour ---
+function getCityHour(timezoneOffsetInSeconds) {
+  const utcTime = new Date(); // current UTC time
+  const cityTime = new Date(utcTime.getTime() + timezoneOffsetInSeconds * 1000);
+  return cityTime.getHours(); // returns hour 0-23
+}
+// --------------------------------------------
 
 async function checkWeather() {
   const cityName = cityInput.value.trim();
@@ -33,6 +40,8 @@ async function checkWeather() {
     const response = await fetch(url);
     const data = await response.json();
 
+    console.log(data); // Log the data for debugging
+
     if (data.cod === 200) {
       cityText.textContent = data.name;
       tempText.textContent = `${data.main.temp}°C`;
@@ -41,38 +50,55 @@ async function checkWeather() {
       weatherText.textContent = data.weather[0].description;
 
       const weatherMain = data.weather[0].main;
-      
+
+      // --- Use the helper function ---
+      const cityHour = getCityHour(data.timezone);
+      const timeOfDay = (cityHour >= 6 && cityHour < 18) ? "day" : "night";
+
+      // Set weather image based on weather and time
       switch (weatherMain) {
         case "Clear":
-          weatherImage.src = "images/sun.png"; break;
+          weatherImage.src = timeOfDay === "day" ? "images/clear.png" : "images/nightClear.webp";
+          break;
         case "Clouds":
-          weatherImage.src = "images/cloud.png"; break;
+          weatherImage.src = timeOfDay === "day" ? "images/cloud.png" : "images/nightCloud.webp";
+          break;
         case "Rain":
-          weatherImage.src = "images/rain.png"; break;
+          weatherImage.src = "images/rain.png" 
+          break;
         case "Snow":
-          weatherImage.src = "images/snow.png"; break;
+          weatherImage.src =  "images/snow.png";
+          break;
         case "Thunderstorm":
-          weatherImage.src = "images/storm.png"; break;
+          weatherImage.src = "images/storm.png";
+          break;
         case "Drizzle":
-          weatherImage.src = "images/drizzle.png"; break;
+          weatherImage.src = timeOfDay === "day" ? "images/drizzle.png" : "images/nightDrizzle.png";
+          break;
         case "Mist":
-          weatherImage.src = "images/mist.png"; break;
+          weatherImage.src = "images/mist.png"; // same for day and night
         case "Haze":
-          weatherImage.src = "images/mist.png"; break;
+          weatherImage.src = "images/mist.png"; // same for day and night
+          break;
         case "Fog":
-          weatherImage.src = "images/snow.png"; break;
+          weatherImage.src = "images/snow.png"; // you can make fog image separately
+          break;
         case "Dust":
-          weatherImage.src = "images/dust.jpeg"; break;
+          weatherImage.src = "images/dust.jpeg"; // same for day and night
         case "Sand":
-          weatherImage.src = "images/dust.jpeg"; break;
+          weatherImage.src = "images/dust.jpeg"; // same for day and night
         case "Ash":
-          weatherImage.src = "images/dust.jpeg"; break;
+          weatherImage.src = "images/dust.jpeg"; // same for day and night
+          break;
         case "Squall":
-          weatherImage.src = "images/windy.png"; break;
+          weatherImage.src = "images/windy.png";
+          break;
         case "Tornado":
-          weatherImage.src = "images/tornado.jpeg"; break;
+          weatherImage.src = "images/tornado.jpeg";
+          break;
         default:
-          weatherImage.src = ""; break;
+          weatherImage.src = "Error loading image"; // fallback image
+          break;
       }
 
     } else {
@@ -88,6 +114,5 @@ async function checkWeather() {
   }
 }
 
-    
 // Attach function to button click
 searchBtn.addEventListener("click", checkWeather);
