@@ -7,13 +7,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="w-screen h-screen bg-slate-300 flex justify-center items-center box-border p-2 sm:p-4">
-    <div class="container w-full sm:w-2/5 md:w-3/5 lg:w-2/6 xl:w-1/3 h-full sm:h-4/5 bg-slate-600 flex flex-col items-center rounded-xl p-2 sm:p-4">
+    <div class="container w-full sm:w-2/5 md:w-3/5 lg:w-2/6 xl:w-1/3 h-full sm:h-4/5 bg-slate-600 flex flex-col items-center rounded-xl p-2 sm:p-4 relative">
       
       <!-- Search section -->
       
       <div class="search w-full flex mt-2 sm:mt-4 gap-x-3 sm:gap-x-6 px-4 sm:pl-8 sm:pr-8 pt-2 sm:pt-4">
-        <input type="text" placeholder="Enter a city name" class="cityInput bg-white w-4/5 pl-3 sm:pl-4 py-2 sm:py-3 border-none outline-none rounded-3xl text-sm sm:text-base">
-        <button class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center active:scale-90 transition-all duration-200 ease-in-out" id="searchBtn">
+        <input type="text" placeholder="Enter a city name" class="cityInput bg-white w-4/5 pl-3 sm:pl-4 py-2 sm:py-3 border-none outline-none rounded-3xl text-sm sm:text-base" id="cityInput">
+        <button class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center active:scale-90 transition-all duration-200 ease-in-out hover:bg-gray-100" id="searchBtn">
           <img src="./images/search-interface-symbol.png" alt="Search" class="w-5 sm:w-6" >
         </button>
       </div>
@@ -21,10 +21,10 @@
       <!-- Weather section  -->
       
       <div class="weather-section flex flex-col items-center justify-center mt-4 sm:mt-8 text-white gap-y-1 sm:gap-y-2">
-        <h3 class="text-lg sm:text-2xl city text-center px-2">City Name</h3>
-        <img src="./images/cloud.png" alt="weatherImage" class="w-28 sm:w-40 mt-2 sm:mt-4 flex justify-self-center" />
-        <p class="text-center text-base sm:text-xl text-white mt-px px-2">Weather-Info</p>
-        <h1 class="text-3xl sm:text-5xl temp mt-2 sm:mt-4">Temperature</h1>
+        <h3 class="text-lg sm:text-2xl city text-center px-2" id="cityName">Enter a city to get weather</h3>
+        <img src="./images/cloud.png" alt="weatherImage" class="w-28 sm:w-40 mt-2 sm:mt-4 flex justify-self-center" id="weatherIcon" />
+        <p class="text-center text-base sm:text-xl text-white mt-px px-2" id="weatherDescription">Weather information will appear here</p>
+        <h1 class="text-3xl sm:text-5xl temp mt-2 sm:mt-4" id="temperature">--°C</h1>
       </div>
       
       <!-- Humidity and Wind speed  -->
@@ -32,22 +32,26 @@
       <div class="other-details w-full sm:w-4/5 flex flex-col sm:flex-row justify-between items-center mt-4 sm:mt-8 gap-4 sm:gap-0 px-4 sm:px-0">
         <div class="humidity flex flex-col gap-y-1 items-center justify-center w-full sm:w-44 h-20 sm:h-24 border-2 border-gray-300 rounded-xl p-2 bg-gray-300">
           <img src="./images/humidity4.png" alt="humidity" class="w-10 sm:w-12">
-          <h2 class="text-black text-sm sm:text-md text-center">Humidity: 0%</h2>
+          <h2 class="text-black text-sm sm:text-md text-center" id="humidityText">Humidity: --%</h2>
         </div>
         <div class="wind flex flex-col justify-center items-center w-full sm:w-44 h-20 sm:h-24 border-2 border-gray-300 rounded-xl p-2 bg-gray-300">
           <img src="./images/windy.png" alt="WindSpeed" class="w-10 sm:w-12">
-          <h2 class="text-black text-sm sm:text-md text-center">Wind Speed: 0 km/hr</h2>
+          <h2 class="text-black text-sm sm:text-md text-center" id="windSpeedText">Wind Speed: -- km/hr</h2>
         </div>
       </div>
       
+      <!-- Error Message -->
+      <div class="error-message hidden mt-4 p-3 bg-red-500 text-white rounded-lg text-center" id="errorMessage">
+        City not found. Please try again.
+      </div>
+      
       <!-- Loading Spinner -->
-      <div class="loading-container absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-600/80 z-10 hidden">
+      <div class="loading-container absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-600/80 z-10 hidden" id="loadingSpinner">
         <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
       </div>
       
-      
     </div>
     
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
