@@ -234,7 +234,6 @@ ul li:hover .action {
   }
 
   ul li {
-    flex-direction: column;
     align-items: flex-start;
   }
 
@@ -243,7 +242,7 @@ ul li:hover .action {
     width: auto;
     height: auto;
     transform: scaleX(1);
-    margin-top: 5px;
+    margin: 5px 0 0 10px;
   }
     
 }
