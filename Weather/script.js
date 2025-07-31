@@ -99,51 +99,53 @@ async function checkWeather() {
      const cityHour = getCityHour(data.timezone);
      const timeOfDay = (cityHour >= 6 && cityHour < 18) ? "day" : "night";
 
-     switch (weatherMain) {
-       case "Clear":
-         weatherImage.src = timeOfDay === "day" ? "./images/sun.png" : "./images/nightClear.webp";
-         break;
-       case "Clouds":
-         weatherImage.src = timeOfDay === "day" ? "./images/cloud.png" : "./images/nightCloud.webp";
-         break;
-       case "Rain":
-         weatherImage.src = "./images/rain.png" 
-         break;
-       case "Snow":
-         weatherImage.src =  "./images/snow.png";
-         break;
-       case "Thunderstorm":
-         weatherImage.src = "./images/storm.png";
-         break;
-       case "Drizzle":
-         weatherImage.src = timeOfDay === "day" ? "./images/drizzle.png" : "./images/nightDrizzle.png";
-         break;
-       case "Mist":
-         weatherImage.src = "./images/mist.png"; 
-       case "Haze":
-         weatherImage.src = "./images/mist.png"; 
-         break;
-       case "Fog":
-         weatherImage.src = "./images/snow.png";
-         break;
-       case "Dust":
-         weatherImage.src = "./images/dust.jpeg"; 
-       case "Sand":
-         weatherImage.src = "./images/dust.jpeg"; 
-       case "Ash":
-         weatherImage.src = "./images/dust.jpeg";
-         break;
-       case "Squall":
-         weatherImage.src = "./images/windy.png";
-         break;
-       case "Tornado":
-         weatherImage.src = "./images/tornado.jpeg";
-         break;
-       default:
-         weatherImage.src = "Error loading image"; 
-         break;
-     }
-
+    switch (weatherMain) {
+  case "Clear":
+    weatherImage.src = timeOfDay === "day" ? "./images/sun.png" : "./images/nightClear.webp";
+    break;
+  case "Clouds":
+    weatherImage.src = timeOfDay === "day" ? "./images/cloud.png" : "./images/nightCloud.webp";
+    break;
+  case "Rain":
+    weatherImage.src = "./images/rain.png";
+    break;
+  case "Snow":
+    weatherImage.src = "./images/snow.png";
+    break;
+  case "Thunderstorm":
+    weatherImage.src = "./images/storm.png";
+    break;
+  case "Drizzle":
+    weatherImage.src = timeOfDay === "day" ? "./images/drizzle.png" : "./images/nightDrizzle.png";
+    break;
+  case "Mist":
+    weatherImage.src = "./images/mist.png";
+    break; 
+  case "Haze":
+    weatherImage.src = "./images/mist.png";
+    break;
+  case "Fog":
+    weatherImage.src = "./images/snow.png";
+    break;
+  case "Dust":
+    weatherImage.src = "./images/dust.jpeg";
+    break; 
+  case "Sand":
+    weatherImage.src = "./images/dust.jpeg";
+    break; 
+  case "Ash":
+    weatherImage.src = "./images/dust.jpeg";
+    break;
+  case "Squall":
+    weatherImage.src = "./images/windy.png";
+    break;
+  case "Tornado":
+    weatherImage.src = "./images/tornado.jpeg";
+    break;
+  default:
+    weatherImage.src = "./images/cloud.png"; 
+    break;
+}
    } else if (data.cod === "404") {
      alert("City not found! Please enter a valid city name.");
    } else {
