@@ -1,9 +1,8 @@
 const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
-const formatter = new Intl.NumberFormat("en-US", {
+const formatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
-  currency: "INR",
-  signDisplay: "always",
+  currency: "INR"
 });
 
 const list = document.getElementById("transactionList");
@@ -12,94 +11,110 @@ const status = document.getElementById("status");
 const balance = document.getElementById("balance");
 const income = document.getElementById("income");
 const expense = document.getElementById("expense");
+const filter = document.getElementById("filter");
+const clearAllBtn = document.getElementById("clearAll");
+const toast = document.getElementById("toast");
+
+// UUID generator
+function uuid() {
+  return crypto.randomUUID();
+}
 
 form.addEventListener("submit", addTransaction);
+filter.addEventListener("change", renderList);
+clearAllBtn.addEventListener("click", clearAll);
 
 function updateTotal() {
   const incomeTotal = transactions
-    .filter((trx) => trx.type === "income")
-    .reduce((total, trx) => total + trx.amount, 0);
+    .filter((t) => t.type === "income")
+    .reduce((acc, t) => acc + t.amount, 0);
 
   const expenseTotal = transactions
-    .filter((trx) => trx.type === "expense")
-    .reduce((total, trx) => total + trx.amount, 0);
+    .filter((t) => t.type === "expense")
+    .reduce((acc, t) => acc + t.amount, 0);
 
-  const balanceTotal = incomeTotal - expenseTotal;
-
-  balance.textContent = formatter.format(balanceTotal).substring(1);
+  balance.textContent = formatter.format(incomeTotal - expenseTotal);
   income.textContent = formatter.format(incomeTotal);
-  expense.textContent = formatter.format(expenseTotal * -1);
+  expense.textContent = formatter.format(expenseTotal);
 }
 
 function renderList() {
   list.innerHTML = "";
+  const type = filter.value;
+  const filtered = type === "all" ? transactions : transactions.filter(t => t.type === type);
 
-  status.textContent = "";
-  if (transactions.length === 0) {
+  if (filtered.length === 0) {
     status.textContent = "No transactions.";
     return;
   }
+  status.textContent = "";
 
-  transactions.forEach(({ id, name, amount, date, type }) => {
-    const sign = "income" === type ? 1 : -1;
-
+  filtered.forEach(({ id, name, amount, date, type }) => {
     const li = document.createElement("li");
+    li.className = type;
 
     li.innerHTML = `
-      <div class="name">
+      <div>
         <h4>${name}</h4>
-        <p>${new Date(date).toLocaleDateString()}</p>
+        <small>${new Date(date).toLocaleDateString()}</small>
       </div>
-
-      <div class="amount ${type}">
-        <span>${formatter.format(amount * sign)}</span>
-      </div>
-    
+      <div class="amount">${formatter.format(amount)}</div>
       <div class="action">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onclick="deleteTransaction(${id})">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+        <button data-id="${id}">❌</button>
       </div>
     `;
 
+    li.querySelector("button").addEventListener("click", () => deleteTransaction(id));
     list.appendChild(li);
   });
 }
 
-renderList();
-updateTotal();
-
-function deleteTransaction(id) {
-  const index = transactions.findIndex((trx) => trx.id === id);
-  transactions.splice(index, 1);
-
-  updateTotal();
-  saveTransactions();
-  renderList();
-}
-
 function addTransaction(e) {
   e.preventDefault();
-
-  const formData = new FormData(this);
+  const data = new FormData(form);
 
   transactions.push({
-    id: transactions.length + 1,
-    name: formData.get("name"),
-    amount: parseFloat(formData.get("amount")),
-    date: new Date(formData.get("date")),
-    type: "on" === formData.get("type") ? "income" : "expense",
+    id: uuid(),
+    name: data.get("name"),
+    amount: parseFloat(data.get("amount")),
+    date: data.get("date"),
+    type: data.get("type")
   });
 
-  this.reset();
-
-  updateTotal();
+  form.reset();
   saveTransactions();
+  updateTotal();
   renderList();
+  showToast("Transaction added ✅");
+}
+
+function deleteTransaction(id) {
+  const index = transactions.findIndex(t => t.id === id);
+  transactions.splice(index, 1);
+  saveTransactions();
+  updateTotal();
+  renderList();
+  showToast("Transaction deleted ❌");
+}
+
+function clearAll() {
+  transactions.length = 0;
+  saveTransactions();
+  updateTotal();
+  renderList();
+  showToast("All transactions cleared 🗑️");
 }
 
 function saveTransactions() {
-  transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.style.display = "block";
+  setTimeout(() => { toast.style.display = "none"; }, 2000);
+}
+
+// init
+updateTotal();
+renderList();
